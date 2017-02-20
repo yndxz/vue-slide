@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>vue-slide</title>
+    <link rel="stylesheet" href="./dist/slide.css"/>
+  </head>
+  <body>
+    <div id="app">
+    	<Slide></Slide>
+    	<Slide :arrow=false></Slide>
+    	<Slide :arrow=false :number-page=true></Slide>
+    	<Slide :spend="5000"></Slide>
+    	<Slide :speed="20"></Slide>
+    </div>
+    <script src="/dist/build.js"></script>
+  </body>
+</html>
