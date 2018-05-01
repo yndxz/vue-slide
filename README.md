@@ -1,4 +1,4 @@
-# test
+# vue-slide
 
 > A Vue.js project
 
