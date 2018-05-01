@@ -1,4 +1,22 @@
- <style scoped>
+
+<template>
+    <div class="imageList" ref="image_list" @mouseenter="stop" @mouseleave="start">
+        <img src="../assets/button_1.jpg"/>
+        <img src="../assets/button_2.jpg"/>
+        <img src="../assets/button_3.jpg"/>
+        <img src="../assets/button_4.jpg"/>
+        <img src="../assets/button_5.jpg"/>
+        <ul class="btnList" ref="btn_list">
+          <li v-for="(item,i) in pages" @click="scrollTop(i);" :class="{'active':i === index}">
+            <a href="javascript:void(0);" v-if="!numberPage"></a>
+            <a href="javascript:void(0);" v-if="numberPage">{{i + 1}}</a>
+          </li>
+        </ul>
+        <a href="javascript:void(0);" v-if="arrow" class="arrow left-arrow" @click="prev"></a>
+        <a href="javascript:void(0);" v-if="arrow" class="arrow right-arrow" @click="next"></a>
+    </div>
+</template>
+<style scoped>
     *{
         margin: 0;
         padding: 0;
@@ -60,32 +78,15 @@
     }
     .left-arrow{
         left:20px;
-        background:url("./assets/left_arrow.png") no-repeat;
+        background:url("./../assets/left_arrow.png") no-repeat;
         background-size: contain;
     }
     .right-arrow{
         right:20px;
-        background:url("./assets/right_arrow.png") no-repeat;
+        background:url("./../assets/right_arrow.png") no-repeat;
         background-size: contain;
     }
 </style>
-<template>
-    <div class="imageList" ref="image_list" @mouseenter="stop" @mouseleave="start">
-        <img src="./assets/button_1.jpg"/>
-        <img src="./assets/button_2.jpg"/>
-        <img src="./assets/button_3.jpg"/>
-        <img src="./assets/button_4.jpg"/>
-        <img src="./assets/button_5.jpg"/>
-        <ul class="btnList" ref="btn_list">
-          <li v-for="(item,i) in pages" @click="scrollTop(i);" :class="{'active':i === index}">
-            <a href="javascript:void(0);" v-if="!numberPage"></a>
-            <a href="javascript:void(0);" v-if="numberPage">{{i + 1}}</a>
-          </li>
-        </ul>
-        <a href="javascript:void(0);" v-if="arrow" class="arrow left-arrow" @click="prev"></a>
-        <a href="javascript:void(0);" v-if="arrow" class="arrow right-arrow" @click="next"></a>
-    </div>
-</template>
 <script scoped>
     import Vue from "vue";
     export default {
@@ -151,24 +152,24 @@
                 this.current = current;
             },
             start(){
-                var self = this;
-                self.interval = setInterval(function () {
-                    self.index++;
-                    if(self.index >= self.pages){
-                        self.index = 0;
+                this.interval = setInterval(() => {
+                    this.index++;
+                    if(this.index >= this.pages){
+                        this.index = 0;
                     }
-                    var current = self.index;
-                    self.animation(self.imageList[self.current],0);
-                    self.animation(self.imageList[self.index],100);
-                    self.current = current;
-                },self.spend);
+                    var current = this.index;
+                    this.animation(this.imageList[this.current],0);
+                    this.animation(this.imageList[this.index],100);
+                    this.current = current;
+                },this.spend);
             },
             animation(obj,offset){
-                var self = this;
-                clearInterval(obj.interVal);
-                obj.interVal = setInterval(function () {
-                    var value = Math.round(parseFloat(self.getStyle(obj,'opacity') * 100));
-                    var step = (parseFloat(offset) - value) / self.speed;
+                if(obj.interVal){
+                    clearInterval(obj.interVal);
+                }
+                obj.interVal = setInterval(() => {
+                    var value = Math.round(parseFloat(this.getStyle(obj,'opacity') * 100));
+                    var step = (parseFloat(offset) - value) / this.speed;
                     step = step > 0 ? Math.ceil(step) : Math.floor(step);
                     if(value == offset){
                         clearInterval(obj.interVal);
